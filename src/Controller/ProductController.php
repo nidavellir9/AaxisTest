@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use App\Service\ValidatorService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,7 +23,6 @@ class ProductController extends AbstractController
     #[Route('/api/products', name: 'product_show')]
     public function show(): JsonResponse
     {
-        //TODO: ver si el find all podes elegir que campos y ya como array
         $products = $this->product_repository->findAll();
         
         if (!($products)) {
@@ -44,11 +44,11 @@ class ProductController extends AbstractController
     }
 
     #[Route('/api/saveproduct', name: 'product_save')]
-    public function save(Request $request): JsonResponse
+    public function save(ValidatorService $validator, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
-        if (!($this->validate($data))) {
+        if (!($validator->validate($data))) {
             return new JsonResponse(['message'=> 'SKU and Product name are mandatory'], 400);
         }
         
@@ -112,24 +112,6 @@ class ProductController extends AbstractController
         }
 
         return new JsonResponse(['message'=> 'SKUs updated ' . implode(',', $updated)], 200);
-    }
-
-    //TODO Pasar a servicio
-    private function validate(array $data): bool
-    {
-        if (isset($data['sku'])) {
-            if ((empty($data['sku'])) || (empty($data['product_name']))) {
-                return false;
-            }
-        } else {
-            for ($i = 0; $i < count($data); $i++) {
-                if ((empty($data[$i]['sku'])) || (empty($data[$i]['product_name']))) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
     }
 
     private function saveProduct(array $data)
