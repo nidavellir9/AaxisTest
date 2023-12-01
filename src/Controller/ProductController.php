@@ -19,7 +19,7 @@ class ProductController extends AbstractController
         $this->product_repository = $pr;
     }
 
-    #[Route('/products', name: 'product_show')]
+    #[Route('/api/products', name: 'product_show')]
     public function show(): JsonResponse
     {
         //TODO: ver si el find all podes elegir que campos y ya como array
@@ -43,7 +43,7 @@ class ProductController extends AbstractController
         return new JsonResponse($data, 200);
     }
 
-    #[Route('/saveproduct', name: 'product_save')]
+    #[Route('/api/saveproduct', name: 'product_save')]
     public function save(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -73,7 +73,7 @@ class ProductController extends AbstractController
         return new JsonResponse(['message' => "Products added"], 200);
     }
 
-    #[Route('/updateproduct', name: 'product_update')]
+    #[Route('/api/updateproduct', name: 'product_update')]
     public function update(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
