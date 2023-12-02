@@ -70,7 +70,7 @@ class ProductController extends AbstractController
             }
         }
 
-        return new JsonResponse(['message' => "Products added"], 200);
+        return new JsonResponse(['message' => "Products added"], 201);
     }
 
     #[Route('/api/updateproduct', name: 'product_update')]
@@ -111,7 +111,7 @@ class ProductController extends AbstractController
             }
         }
 
-        return new JsonResponse(['message'=> 'SKUs updated ' . implode(',', $updated)], 200);
+        return new JsonResponse(['message'=> 'SKUs updated ' . implode(',', $updated)], 202);
     }
 
     private function saveProduct(array $data)
