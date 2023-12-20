@@ -1,4 +1,4 @@
-# AaxisTest API doc
+# PHP API Sample doc
 
 ### Guía de ejecución
 Luego de clonarse el repositorio ejecutar el comando
